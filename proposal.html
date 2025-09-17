@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TERP × CKCL: Waste & Social Impact Analytics — Thiruvananthapuram</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family:'Inter',sans-serif; background:#f8f9fa; color:#212529; }
+    .chart-container { position:relative; width:100%; max-width:720px; margin:0 auto; height:320px; }
+    @media (min-width:768px){ .chart-container{ height:384px; } }
+    .stat-card{ background:#fff; border-radius:1rem; box-shadow:0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1); padding:1.25rem; text-align:center;}
+    .timeline-item::before{ content:''; position:absolute; left:1.25rem; top:2.5rem; bottom:0; width:2px; background:#94d2bd;}
+    .timeline-item:last-child::before{ display:none; }
+    .badge{ display:inline-flex; align-items:center; gap:.4rem; font-size:.75rem; border-radius:9999px; padding:.25rem .6rem;}
+    @media print { .shadow-md,.shadow-sm,.shadow { box-shadow:none !important; } .sticky{ position:static; } .bg-gray-50{ background:#fff; } }
+  </style>
+</head>
+<body>
+<header class="bg-white sticky top-0 z-50 shadow-md">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center">
+        <span class="font-bold text-xl text-[#005f73]">TERP × CKCL Analytics — Thiruvananthapuram</span>
+      </div>
+      <div class="hidden md:block">
+        <div class="ml-10 flex items-baseline space-x-4">
+          <a href="#vision" class="text-gray-600 hover:text-[#0a9396] px-3 py-2 rounded-md text-sm font-medium">Vision</a>
+          <a href="#impact-board" class="text-gray-600 hover:text-[#0a9396] px-3 py-2 rounded-md text-sm font-medium">Impact Board</a>
+          <a href="#requirements" class="text-gray-600 hover:text-[#0a9396] px-3 py-2 rounded-md text-sm font-medium">Data Requirements</a>
+          <a href="#deep-dive" class="text-gray-600 hover:text-[#0a9396] px-3 py-2 rounded-md text-sm font-medium">Deep Dive</a>
+          <a href="#pilot-plan" class="text-gray-600 hover:text-[#0a9396] px-3 py-2 rounded-md text-sm font-medium">Pilot Plan</a>
+          <a href="#future-addons" class="text-gray-600 hover:text-[#0a9396] px-3 py-2 rounded-md text-sm font-medium">Future Add-ons</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- Vision -->
+  <section id="vision" class="bg-white py-20 md:py-28">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-6xl font-extrabold text-[#005f73]">Making Impact Visible</h1>
+      <p class="mt-4 max-w-3xl mx-auto text-lg md:text-xl text-gray-600">
+        A lean, auditable analytics layer to quantify Clean Kerala’s waste diversion and social value within
+        <span class="font-semibold">Thiruvananthapuram Municipal Corporation (TMC)</span> — with no operational changes required.
+      </p>
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div class="stat-card border-t-4 border-[#0a9396]">
+          <p class="text-lg font-semibold text-[#005f73]">Wards Covered</p>
+          <p class="text-4xl font-extrabold text-[#005f73]">100</p>
+          <p class="text-sm text-gray-500">Official TMC boundary</p>
+        </div>
+        <div class="stat-card border-t-4 border-[#94d2bd]">
+          <p class="text-lg font-semibold text-[#005f73]">Material Collection Facilities (MCF) & Resource Recovery Facilities (RRF)</p>
+          <p class="text-4xl font-extrabold text-[#005f73]">26 + 4</p>
+          <p class="text-sm text-gray-500">Non-biodegradable value chain (context)</p>
+        </div>
+        <div class="stat-card border-t-4 border-[#e9d8a6]">
+          <p class="text-lg font-semibold text-[#005f73]">Non-Biodegradable Capacity</p>
+          <p class="text-4xl font-extrabold text-[#005f73]">~1,000 t/month</p>
+          <p class="text-sm text-gray-500">City-level context</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact Board -->
+  <section id="impact-board" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">The Executive Impact Board</h2>
+        <p class="mt-2 text-lg text-gray-600">Subset demo: five real TMC wards. All figures below are internally consistent and computed from the ward material flow.</p>
+        <p class="badge bg-yellow-100 text-yellow-800 mt-2">⚠️ Illustrative demo — final values depend on CKCL ledgers and the factor table</p>
+        <p class="text-sm text-gray-500 mt-1">Boundary: TMC · Timeframe: last full financial year or rolling 12 months · Functional unit: per tonne processed</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="kpiCards">
+        <div class="stat-card">
+          <h3 class="text-lg font-semibold text-gray-700 mb-1">Processed (Pilot Subset)</h3>
+          <p class="text-5xl font-extrabold text-[#005f73]" id="kpiProcessed">—</p>
+          <p class="text-sm text-gray-500">Tonnes/year (5 wards)</p>
+        </div>
+        <div class="stat-card">
+          <h3 class="text-lg font-semibold text-gray-700 mb-1">Net Climate Benefit</h3>
+          <p class="text-5xl font-extrabold text-[#0a9396]" id="kpiCO2e">—</p>
+          <p class="text-sm text-gray-500">Tonnes CO₂e avoided (indicative)</p>
+        </div>
+        <div class="stat-card">
+          <h3 class="text-lg font-semibold text-gray-700 mb-1">Traceability Score</h3>
+          <p class="text-5xl font-extrabold text-[#e9d8a6]">90%</p>
+          <p class="text-sm text-gray-500">Origin to destination documentation complete</p>
+          <p class="text-xs text-gray-500 mt-2">Weigh tickets and partner receipts (pilot target)</p>
+        </div>
+      </div>
+
+      <div class="mt-8 grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div class="lg:col-span-3 bg-white p-6 rounded-2xl shadow-md">
+          <h3 class="text-xl font-semibold text-center mb-3 text-gray-800">Top 5 Ward Hotspots — Un-recyclable Share (%)</h3>
+          <p class="text-xs text-gray-500 text-center mb-2">Computed as (co-processing + residue) ÷ total inflow for each ward</p>
+          <div class="chart-container h-80 md:h-96"><canvas id="hotspotsChart"></canvas></div>
+        </div>
+        <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-md">
+          <h3 class="text-xl font-semibold text-center mb-3 text-gray-800">Overall Waste Diversion (Pilot Subset)</h3>
+          <p class="text-xs text-gray-500 text-center mb-2">Absolute tonnes diverted from landfill versus residue (annualised from monthly flows)</p>
+          <div class="chart-container h-80 md:h-96"><canvas id="diversionChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="text-center mt-6">
+        <button id="openMethods" class="px-4 py-2 rounded-lg bg-[#005f73] text-white font-semibold hover:bg-[#0a9396]" aria-label="Open Methods and Sources">
+          Methods and Sources
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data Requirements -->
+  <section id="requirements" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-800">Data Requirements (Pilot)</h2>
+        <p class="mt-2 text-lg text-gray-600">Four lightweight spreadsheets. No GPS, fuel logs, or electricity meter data needed.</p>
+      </div>
+
+      <details class="bg-gray-50 rounded-xl p-6 shadow-sm open:shadow-md">
+        <summary class="cursor-pointer font-semibold text-[#005f73]">1) Materials Ledger (monthly; by facility and/or ward)</summary>
+        <div class="mt-3 text-sm text-gray-700">
+          <p class="mb-2"><strong>Columns:</strong></p>
+          <ul class="list-disc pl-6 space-y-1">
+            <li><code>month</code>, <code>facility_id</code>, <code>ulb_or_ward_id</code>, <code>material_category</code> (PET — Polyethylene terephthalate; HDPE — High-density polyethylene; LDPE — Low-density polyethylene; PP — Polypropylene rigid; PP — Polypropylene film; MLP — Multi-layered plastic; paper — ONP/OCC; metals — steel/aluminium; glass; textiles; footwear; thermocol; e-waste group; rejects), <code>inbound_tonnes</code></li>
+            <li><code>destination_type</code> (recycling / co-processing / plastic_road / resale / residue), <code>outbound_tonnes</code>, <code>batch_id</code>, <code>dispatch_date</code>, <code>partner_name</code></li>
+            <li><em>Optional:</em> <code>road_stretch_id</code>, <code>bitumen_substitution_rate</code>, <code>cement_partner_tsr</code> (thermal substitution rate)</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="bg-gray-50 rounded-xl p-6 shadow-sm mt-4">
+        <summary class="cursor-pointer font-semibold text-[#005f73]">2) Quality and Process (monthly)</summary>
+        <div class="mt-3 text-sm text-gray-700">
+          <p class="mb-2"><strong>Columns:</strong></p>
+          <ul class="list-disc pl-6 space-y-1">
+            <li><code>month</code>, <code>facility_id</code>, <code>line_id</code>, <code>bale_purity_percent</code>, <code>contamination_percent</code>, <code>rejects_kg</code></li>
+            <li>If line-level unavailable, monthly totals by facility are fine.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="bg-gray-50 rounded-xl p-6 shadow-sm mt-4">
+        <summary class="cursor-pointer font-semibold text-[#005f73]">3) Social Aggregates (quarterly)</summary>
+        <div class="mt-3 text-sm text-gray-700">
+          <p class="mb-2"><strong>Columns:</strong></p>
+          <ul class="list-disc pl-6 space-y-1">
+            <li><code>period</code>, <code>site_id</code>, <code>headcount_total</code>, <code>women_percent</code>, <code>ppe_issuance_percent</code> (Personal Protective Equipment), <code>training_hours_per_worker</code>, <code>on_time_payment_percent</code>, <code>incident_count</code></li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="bg-gray-50 rounded-xl p-6 shadow-sm mt-4">
+        <summary class="cursor-pointer font-semibold text-[#005f73]">4) Traceability (monthly; simple counts)</summary>
+        <div class="mt-3 text-sm text-gray-700">
+          <p class="mb-2"><strong>Columns:</strong></p>
+          <ul class="list-disc pl-6 space-y-1">
+            <li><code>month</code>, <code>facility_id</code>, <code>total_outbound_lots</code>, <code>lots_with_complete_docs</code>, <code>data_completeness_score</code></li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Deep Dive -->
+  <section id="deep-dive" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-800">Deep Dive into the Data</h2>
+        <p class="mt-2 text-lg text-gray-600">Visualising the three pillars of impact: climate, material flow, and social value.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <!-- Diversion Rate by Ward -->
+        <div class="bg-white p-6 rounded-2xl shadow-md">
+          <h3 class="text-xl font-semibold text-center mb-3 text-gray-800">Diversion Rate by Ward (Pilot Subset)</h3>
+          <p class="text-center text-xs text-gray-600 mb-3">Diversion rate = (recycling + co-processing + plastic-modified roads) ÷ total managed (monthly basis).</p>
+          <div class="chart-container"><canvas id="emissionsByDestinationChart"></canvas></div>
+        </div>
+
+        <!-- MFA by Ward & Destination -->
+        <div class="bg-white p-6 rounded-2xl shadow-md">
+          <h3 class="text-xl font-semibold text-center mb-3 text-gray-800">Material Flow Analysis — Monthly Non-Biodegradable by Ward and Destination (TMC)</h3>
+          <p class="text-center text-xs text-gray-600 mb-3">Subset of five wards. Replace with the full TMC ward ledger to scale.</p>
+          <div class="chart-container"><canvas id="mfaWardChart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Social & Governance -->
+      <div class="bg-white p-8 rounded-2xl shadow-md">
+        <h3 class="text-xl font-semibold text-center mb-4 text-gray-800">Social and Governance — Haritha Karma Sena (HKS) and Facility Staff Snapshot</h3>
+        <p class="text-center text-sm text-gray-600 max-w-3xl mx-auto mb-6">
+          Privacy-safe, aggregate indicators. Replace placeholders with CKCL quarterly data.
+        </p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+          <div class="stat-card border-l-4 border-[#005f73]">
+            <p class="text-4xl font-bold text-[#005f73]">~85%</p>
+            <p class="font-semibold text-gray-600">Women in workforce (HKS-led)</p>
+          </div>
+          <div class="stat-card border-l-4 border-[#0a9396]">
+            <p class="text-4xl font-bold text-[#0a9396]">98%</p>
+            <p class="font-semibold text-gray-600">Personal Protective Equipment (PPE) coverage</p>
+          </div>
+          <div class="stat-card border-l-4 border-[#94d2bd]">
+            <p class="text-4xl font-bold text-[#94d2bd]">99%</p>
+            <p class="font-semibold text-gray-600">On-time payments</p>
+          </div>
+          <div class="stat-card border-l-4 border-[#e9d8a6]">
+            <p class="text-4xl font-bold text-[#e9d8a6]">12</p>
+            <p class="font-semibold text-gray-600">Training hours per worker per year</p>
+          </div>
+        </div>
+        <div class="chart-container"><canvas id="incidentsChart"></canvas></div>
+        <p class="text-xs text-gray-500 text-center mt-2">Illustrative incidents per quarter per 100 workers; replace with CKCL safety log aggregates.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pilot Plan -->
+  <section id="pilot-plan" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-800">The Four-Week Pilot Plan</h2>
+        <p class="mt-2 text-lg text-gray-600">A rapid, non-disruptive path to your first impact report.</p>
+      </div>
+      <div class="relative">
+        <div class="grid md:grid-cols-4 gap-8">
+          <div class="relative pl-10 timeline-item">
+            <div class="absolute left-0 top-0 flex items-center justify-center w-10 h-10 rounded-full bg-[#005f73] text-white font-bold text-lg">1</div>
+            <h4 class="font-bold text-lg text-gray-800 mt-2">Kickoff and Data</h4>
+            <p class="text-sm text-gray-600 mt-1">Finalize scope and share templates. CKCL populates four sheets.</p>
+          </div>
+          <div class="relative pl-10 timeline-item">
+            <div class="absolute left-0 top-0 flex items-center justify-center w-10 h-10 rounded-full bg-[#0a9396] text-white font-bold text-lg">2</div>
+            <h4 class="font-bold text-lg text-gray-800 mt-2">Build and Insights</h4>
+            <p class="text-sm text-gray-600 mt-1">Data cleaning, initial material flow analysis, hotspots, and quality metrics.</p>
+          </div>
+          <div class="relative pl-10 timeline-item">
+            <div class="absolute left-0 top-0 flex items-center justify-center w-10 h-10 rounded-full bg-[#94d2bd] text-gray-800 font-bold text-lg">3</div>
+            <h4 class="font-bold text-lg text-gray-800 mt-2">Climate and Social</h4>
+            <p class="text-sm text-gray-600 mt-1">Avoided emissions, social dashboard, traceability score.</p>
+          </div>
+          <div class="relative pl-10 timeline-item">
+            <div class="absolute left-0 top-0 flex items-center justify-center w-10 h-10 rounded-full bg-[#e9d8a6] text-gray-800 font-bold text-lg">4</div>
+            <h4 class="font-bold text-lg text-gray-800 mt-2">Finalize and Scale</h4>
+            <p class="text-sm text-gray-600 mt-1">Deliver Impact Board and Methods Note. Plan scale-up.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Future Add-ons -->
+  <section id="future-addons" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-800">Future Add-ons: Energy and Logistics</h2>
+        <p class="mt-2 text-lg text-gray-600">When ready, these modules slot in without changing the waste/social workflow.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="bg-white p-6 rounded-2xl shadow-md">
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Facility Energy Module</h3>
+          <ul class="list-disc pl-6 text-gray-700 text-sm space-y-1">
+            <li><strong>Energy intensity</strong> (kilowatt-hour per tonne) by facility and line</li>
+            <li><strong>Electricity emission factor</strong> from Central Electricity Authority (CEA) Baseline Database</li>
+            <li><strong>Key performance indicators</strong>: kilowatt-hour per tonne, tonnes CO₂e per tonne (Scope 2)</li>
+          </ul>
+          <p class="text-xs text-gray-500 mt-2">Data needed: monthly electricity bills or sub-meter totals per facility.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-md">
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Logistics and Transport Module</h3>
+          <ul class="list-disc pl-6 text-gray-700 text-sm space-y-1">
+            <li><strong>Routing efficiency</strong> and <strong>load factor</strong> (tonne-kilometres, litres per 100 km)</li>
+            <li><strong>Fuel emission factors</strong> and <strong>Scope 1</strong> transport emissions</li>
+            <li><strong>Key performance indicators</strong>: kilograms CO₂e per tonne-kilometre; diversion per kilometre</li>
+          </ul>
+          <p class="text-xs text-gray-500 mt-2">Data needed: monthly fuel receipts or telematics export (vehicle, distance, volume collected).</p>
+        </div>
+      </div>
+      <p class="text-xs text-gray-500 mt-6 text-center">These add-ons are optional. We recommend piloting waste and social first, then enabling energy/logistics.</p>
+    </div>
+  </section>
+
+  <!-- Methods & Sources -->
+  <dialog id="methodsDialog" class="rounded-2xl p-0 w-full max-w-3xl">
+    <div class="p-6 md:p-8">
+      <div class="flex items-start justify-between">
+        <h3 class="text-2xl md:text-3xl font-bold text-[#005f73]">Methods & Sources (Lean and Auditable)</h3>
+        <button id="closeMethods" class="ml-4 text-gray-500 hover:text-gray-700" aria-label="Close">✕</button>
+      </div>
+
+      <p class="mt-3 text-gray-700">
+        Destination-based avoided-emissions with conservative ranges. Credits are claimed only where documentation exists (we default to zero if in doubt). All figures reported as carbon dioxide equivalent (CO₂e).
+      </p>
+
+      <div class="mt-6">
+        <h4 class="text-xl font-semibold text-gray-800">Equations (plain text)</h4>
+        <ul class="mt-3 space-y-3 text-gray-700 list-disc pl-6">
+          <li><span class="font-semibold">Recycling (by material i):</span> Avoided CO₂e = tonnes recycled of i × (emission factor of virgin i − emission factor of recycled i).</li>
+          <li><span class="font-semibold">Cement co-processing (fuel substitution):</span> Avoided CO₂e = tonnes of waste used as fuel × thermal substitution rate × lower heating value × (coal emission factor − alternative fuel fossil emission factor).</li>
+          <li><span class="font-semibold">Plastic-modified roads (bitumen displacement):</span> Avoided CO₂e = tonnes of plastic used × measured bitumen substitution rate × bitumen emission factor.</li>
+          <li><span class="font-semibold">Optional (with proof):</span> Landfill methane avoided for paper/textiles diverted from disposal (IPCC defaults or EPA WARM v15 as applicable).</li>
+        </ul>
+      </div>
+
+      <div class="mt-8">
+        <h4 class="text-xl font-semibold text-gray-800">Factor Library (ranges; locked at pilot kickoff)</h4>
+        <p class="text-gray-600 mt-1">Published cradle-to-gate values; final factors are frozen for the pilot and cited in the Methods Note.</p>
+        <ul class="mt-4 space-y-4 text-gray-700 list-disc pl-6">
+          <li><span class="font-semibold">Plastics — virgin resin (kg CO₂e per kg resin):</span> PET ~2.1–2.7; HDPE ~1.3–1.8; PP ~1.5–1.9. <span class="block text-sm text-gray-600"><a class="underline" href="https://plasticseurope.org/sustainability/circularity/life-cycle-thinking/eco-profiles-set/" target="_blank" rel="noreferrer">PlasticsEurope Eco-profiles</a> · <a class="underline" href="https://www.americanchemistry.com/better-policy-regulation/plastics/resources/cradle-to-gate-life-cycle-analysis-of-high-density-polyethylene-hdpe-resin" target="_blank" rel="noreferrer">ACC HDPE LCA (2020)</a></span></li>
+          <li><span class="font-semibold">Plastics — recycled resin (kg CO₂e per kg resin):</span> rPET ~0.45–1.0; rHDPE ~0.4–1.0; rPP ~0.3–0.7. <span class="block text-sm text-gray-600"><a class="underline" href="https://plasticsrecycling.org/wp-content/uploads/2024/08/2018-APR-LCI-report.pdf" target="_blank" rel="noreferrer">APR/Franklin Associates LCI (2018)</a></span></li>
+          <li><span class="font-semibold">Paper (grade-specific, method-dependent):</span> Use EPA WARM v15 for recycling vs landfill/combustion comparisons; values vary by OCC/ONP and disposal baseline. <span class="block text-sm text-gray-600"><a class="underline" href="https://www.epa.gov/sites/default/files/2019-10/documents/warm_v15_management_practices_updated_10-08-2019.pdf" target="_blank" rel="noreferrer">EPA WARM v15</a></span></li>
+          <li><span class="font-semibold">Metals:</span> Primary vs recycled factors from worldsteel (steel) and International Aluminium Institute (aluminium); ranges depend on electricity mix. <span class="block text-sm text-gray-600"><a class="underline" href="https://worldsteel.org/media/publications/life-cycle-inventory-study-report-2021-data-release/" target="_blank" rel="noreferrer">worldsteel LCI</a> · <a class="underline" href="https://international-aluminium.org/resources/life-cycle-inventory-lci-data-and-environmental-metrics/" target="_blank" rel="noreferrer">IAI LCI</a></span></li>
+          <li><span class="font-semibold">Glass:</span> Container glass LCA benchmarks (melting energy and cullet benefits). <span class="block text-sm text-gray-600"><a class="underline" href="https://feve.org/glass-industry-positions/life-cycle-assessment/" target="_blank" rel="noreferrer">FEVE LCA</a></span></li>
+          <li><span class="font-semibold">Bitumen for plastic-modified roads (t CO₂e per tonne bitumen):</span> Use ~0.39–0.62 t CO₂e/t (conservative envelope; region-matched at kickoff). <span class="block text-sm text-gray-600"><a class="underline" href="https://www.asphaltpavement.org/uploads/documents/Climate/NAPA-SIP109-TheCarbonFootprintOfAsphaltPavements-March2024.pdf" target="_blank" rel="noreferrer">NAPA 2024</a> · <a class="underline" href="https://eurobitume.eu/wp-content/uploads/2025/03/EB-GWP-Report-to-LCA-4.0-2025.pdf" target="_blank" rel="noreferrer">Eurobitume LCA 4.0</a></span></li>
+        </ul>
+      </div>
+
+      <div class="mt-8 grid md:grid-cols-2 gap-6">
+        <div>
+          <h4 class="text-xl font-semibold text-gray-800">India-specific guidance</h4>
+          <ul class="mt-3 space-y-3 text-gray-700 list-disc pl-6">
+            <li><span class="font-semibold">Cement co-processing:</span> Follow Central Pollution Control Board (CPCB) protocol; credit based on measured thermal substitution rate (TSR) and lower heating value (LHV). <a class="underline block text-sm text-gray-600" href="https://unepccc.org/wp-content/uploads/sites/3/2016/04/whitepapercompendium-cpcb.pdf" target="_blank" rel="noreferrer">CPCB guidance</a></li>
+            <li><span class="font-semibold">Plastic roads:</span> Use Indian Roads Congress (IRC) SP:98 and Ministry of Road Transport and Highways (MoRTH) circulars; require documented bitumen savings for credits. <span class="block text-sm text-gray-600"><a class="underline" href="https://www.indianroadscongress.org/public/storage/files/publications/ircspecifications/irc_sp_098_2020.pdf" target="_blank" rel="noreferrer">IRC SP:98</a> · <a class="underline" href="https://morth.nic.in/sites/default/files/circulars_document/MoRTH_Circular_on_Use_of_Plastic_Waste_in_Hot_Bituminous_Mix_in_Wearing_Course.pdf" target="_blank" rel="noreferrer">MoRTH circular</a></span></li>
+            <li><span class="font-semibold">Grid electricity (if later needed):</span> Central Electricity Authority (CEA) CO₂ Baseline Database for India. <a class="underline block text-sm text-gray-600" href="https://cea.nic.in/cdm-co2-baseline-database/?lang=en" target="_blank" rel="noreferrer">CEA baseline database</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-xl font-semibold text-gray-800">Quality & traceability standards</h4>
+          <ul class="mt-3 space-y-3 text-gray-700 list-disc pl-6">
+            <li><span class="font-semibold">Bale quality (plastics):</span> Bale purity and contamination measured against Association of Plastic Recyclers (APR) Model Bale Specifications. <a class="underline block text-sm text-gray-600" href="https://plasticsrecycling.org/tools-and-resources/recycler-resources/model-bale-specifications/" target="_blank" rel="noreferrer">APR bale specs</a></li>
+            <li><span class="font-semibold">Recovered paper grades:</span> European List EN 643 and CEPI quality control guidelines for contamination and moisture thresholds. <a class="underline block text-sm text-gray-600" href="https://www.cepi.org/wp-content/uploads/2022/02/PaperforRecyclingQuality-Control-GuidelinesWITHANNEX.pdf" target="_blank" rel="noreferrer">CEPI guidelines</a></li>
+            <li><span class="font-semibold">Cross-commodity specs:</span> ISRI Scrap Specifications Circular for metals, glass, paper and plastics. <a class="underline block text-sm text-gray-600" href="https://www.isrispecs.org/" target="_blank" rel="noreferrer">ISRI specs</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-8">
+        <h4 class="text-xl font-semibold text-gray-800">Accounting framework</h4>
+        <p class="text-gray-700">We follow the Greenhouse Gas (GHG) Protocol (Corporate Standard and Scope 3 Technical Guidance). All material-specific factors and methods are documented in the Methods Note delivered with the pilot.</p>
+        <p class="mt-2 text-sm text-gray-600">
+          <a class="underline" target="_blank" rel="noreferrer" href="https://ghgprotocol.org/corporate-standard">GHG Protocol Corporate Standard</a> ·
+          <a class="underline" target="_blank" rel="noreferrer" href="https://ghgprotocol.org/scope-3-calculation-guidance-2">Scope 3 Calculation Guidance</a> ·
+          <a class="underline" target="_blank" rel="noreferrer" href="https://www.ipcc-nggip.iges.or.jp/public/2006gl/">IPCC 2006 Guidelines</a>
+        </p>
+      </div>
+
+      <div class="mt-6 p-4 rounded-xl bg-[#f8f9fa] text-gray-700">
+        <h5 class="font-semibold text-gray-800">Notes on uncertainty & boundaries</h5>
+        <ul class="mt-2 list-disc pl-6 space-y-2">
+          <li>When multiple credible sources exist, we select conservative (higher) virgin and recycled factors to avoid overstating benefits.</li>
+          <li>No credit is taken for transport or energy unless metered data is provided; otherwise we report waste-only impacts.</li>
+          <li>Plastic-road benefits are claimed only when bitumen displacement is evidenced by mix design and purchase records.</li>
+        </ul>
+      </div>
+
+      <div class="mt-8 flex justify-end">
+        <button id="closeMethodsBottom" class="px-4 py-2 rounded-lg bg-[#005f73] text-white hover:bg-[#0a9396]">Close</button>
+      </div>
+    </div>
+    <form method="dialog"><button class="hidden">Close</button></form>
+  </dialog>
+</main>
+
+<footer class="bg-[#005f73] text-white">
+  <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-2xl font-bold">Ready to Measure Your Impact?</h2>
+    <p class="mt-2">Identify two facilities and three to five wards for the four-week pilot. We will handle the rest.</p>
+    <div class="mt-6">
+      <p class="text-base">Prepared by TERP — The Earth Reimagined Project</p>
+      <p class="text-sm opacity-75">Kerala-rooted sustainability analytics for real impact.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const wrapLabel=(label)=>{ const max=16; if(typeof label!=='string'||label.length<=max) return label;
+    const words=label.split(' '), lines=[]; let cur=''; for(const w of words){ if((cur+' '+w).trim().length>max){ lines.push(cur.trim()); cur=w; } else { cur=(cur+' '+w).trim(); } }
+    if(cur) lines.push(cur.trim()); return lines; };
+  const tooltipTitle=(items)=>{ const it=items[0]; let label=it.chart.data.labels[it.dataIndex]; return Array.isArray(label)?label.join(' '):label; };
+
+  const optsBase={
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{ position:'bottom', labels:{ usePointStyle:true, font:{family:"'Inter',sans-serif"} } },
+      tooltip:{ callbacks:{ title:tooltipTitle }, titleFont:{family:"'Inter',sans-serif"}, bodyFont:{family:"'Inter',sans-serif"} } },
+    scales:{ x:{ ticks:{ font:{family:"'Inter',sans-serif"} }, grid:{display:false} },
+             y:{ ticks:{ font:{family:"'Inter',sans-serif"} }, beginAtZero:true } }
+  };
+  const palette={ primary:'#005f73', secondary:'#0a9396', a1:'#94d2bd', a2:'#e9d8a6', a3:'#ee9b00', a4:'#ca6702', a5:'#bb3e03', a6:'#ae2012' };
+
+  /* ======= TMC-only subset data (5 wards) — MONTHLY tonnes (illustrative but capacity-aligned) ======= */
+  const wards=['Chalai','Attukal','Vizhinjam','Kazhakuttam','Sreekariyam'];
+  // Per-ward destination split (t/month). Sum ≈ 46.5 t/month across 5 wards (~5% of ~1,000 t/month city capacity).
+  const wardFlows = {
+    'Chalai':       { recycling: 6.5, coProc: 2.5, plasticRoads: 0.5, residue: 0.5 },
+    'Attukal':      { recycling: 6.0, coProc: 2.2, plasticRoads: 0.4, residue: 0.4 },
+    'Vizhinjam':    { recycling: 6.0, coProc: 2.4, plasticRoads: 0.6, residue: 0.5 },
+    'Kazhakuttam':  { recycling: 7.0, coProc: 2.0, plasticRoads: 0.6, residue: 0.4 },
+    'Sreekariyam':  { recycling: 5.0, coProc: 1.8, plasticRoads: 0.5, residue: 0.7 }
+  };
+
+  // Totals (monthly)
+  const totals = wards.reduce((acc,w)=>{
+    const f=wardFlows[w];
+    acc.month.recycling     += f.recycling;
+    acc.month.coProc        += f.coProc;
+    acc.month.plasticRoads  += f.plasticRoads;
+    acc.month.residue       += f.residue;
+    return acc;
+  }, { month:{ recycling:0, coProc:0, plasticRoads:0, residue:0 }});
+  totals.month.total = totals.month.recycling + totals.month.coProc + totals.month.plasticRoads + totals.month.residue;
+
+  // Annualised (12 months) for KPIs
+  const annualProcessed = totals.month.total * 12; // t/year
+  const deltas = { recycling:0.7, coProc:0.4, plasticRoads:0.5 }; // t CO2e per tonne (conservative, indicative)
+  const annualCO2eAvoided =
+      (totals.month.recycling * 12 * deltas.recycling) +
+      (totals.month.coProc * 12 * deltas.coProc) +
+      (totals.month.plasticRoads * 12 * deltas.plasticRoads);
+
+  // Inject KPI text
+  const fmt=(n)=> new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(n);
+  document.getElementById('kpiProcessed').textContent = '~' + fmt(annualProcessed);
+  document.getElementById('kpiCO2e').textContent      = '~' + fmt(annualCO2eAvoided);
+
+  /* === Hotspots (TMC wards only) — Un-recyclable share (%) = (coProc + residue) / total === */
+  const hotspotsCtx=document.getElementById('hotspotsChart');
+  if(hotspotsCtx){
+    const labels = wards;
+    const values = wards.map(w=>{
+      const f=wardFlows[w];
+      const tot = f.recycling + f.coProc + f.plasticRoads + f.residue;
+      return ((f.coProc + f.residue)/tot*100);
+    });
+    const idx = values.map((v,i)=>({v,i})).sort((a,b)=>b.v-a.v).map(o=>o.i);
+    const sortedLabels = idx.map(i=>labels[i]).map(wrapLabel);
+    const sortedVals   = idx.map(i=>+values[i].toFixed(1));
+
+    new Chart(hotspotsCtx,{ type:'bar',
+      data:{ labels:sortedLabels,
+        datasets:[{ label:'Un-recyclable share (%)', data:sortedVals,
+          backgroundColor:[palette.a6,palette.a5,palette.a3,palette.a2,palette.primary], borderColor:'#ffffff', borderWidth:2 }] },
+      options:{ ...optsBase, indexAxis:'y',
+        scales:{ x:{ ...optsBase.scales.x, ticks:{ ...optsBase.scales.x.ticks, callback:(v)=>v+'%' } }, y:optsBase.scales.y } }
+    });
+  }
+
+  /* === Overall Waste Diversion — ABSOLUTE TONNES (annualised) === */
+  const diversionCtx = document.getElementById('diversionChart');
+  if (diversionCtx) {
+    const divertedMo = totals.month.recycling + totals.month.coProc + totals.month.plasticRoads;
+    const residueMo  = totals.month.residue;
+    const divertedAn = divertedMo * 12;   // t/year
+    const residueAn  = residueMo * 12;    // t/year
+    const tfmt = (n) => new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(n);
+
+    new Chart(diversionCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Diverted from landfill (t/year)', 'Residue to landfill (t/year)'],
+        datasets: [{
+          data: [divertedAn, residueAn],
+          backgroundColor: [palette.primary, '#6c757d'],
+          hoverOffset: 4,
+          borderColor: '#ffffff',
+          borderWidth: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '70%',
+        plugins: {
+          legend: { position: 'bottom', labels: { font: { family: "'Inter', sans-serif" } } },
+          tooltip: {
+            callbacks: {
+              title: tooltipTitle,
+              label: (ctx) => {
+                const val = ctx.parsed;
+                const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                const pct = (val / total) * 100;
+                return `${ctx.label}: ${tfmt(val)} t (${pct.toFixed(1)}%)`;
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  /* === Diversion rate by ward (replaces prior "Avoided CO2e by Destination") === */
+  const emissionsCtx = document.getElementById('emissionsByDestinationChart');
+  if (emissionsCtx) {
+    const labels = wards.map(wrapLabel);
+    const ratePct = wards.map(w => {
+      const f = wardFlows[w];
+      const diverted = f.recycling + f.coProc + f.plasticRoads;
+      const total    = diverted + f.residue;
+      return total > 0 ? (diverted / total) * 100 : 0;
+    });
+    const divertedMo = wards.map(w => {
+      const f = wardFlows[w];
+      return f.recycling + f.coProc + f.plasticRoads;
+    });
+    const totalMo = wards.map(w => {
+      const f = wardFlows[w];
+      return f.recycling + f.coProc + f.plasticRoads + f.residue;
+    });
+    const nfmt = (n) => new Intl.NumberFormat('en-IN', { maximumFractionDigits: 1 }).format(n);
+
+    new Chart(emissionsCtx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Diversion rate (%)',
+          data: ratePct.map(v => +v.toFixed(1)),
+          backgroundColor: palette.primary,
+          borderColor: '#ffffff',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        ...optsBase,
+        plugins: {
+          ...optsBase.plugins,
+          tooltip: {
+            callbacks: {
+              title: tooltipTitle,
+              label: (ctx) => {
+                const i = ctx.dataIndex;
+                const pct = ctx.parsed.y;
+                return [
+                  `Diversion rate: ${pct.toFixed(1)}%`,
+                  `Diverted (t/month): ${nfmt(divertedMo[i])} of ${nfmt(totalMo[i])}`
+                ];
+              }
+            }
+          }
+        },
+        scales: {
+          x: optsBase.scales.x,
+          y: {
+            ...optsBase.scales.y,
+            title: { display: true, text: 'Diversion rate (%)' },
+            suggestedMin: 0,
+            suggestedMax: 100,
+            ticks: { callback: (v) => `${v}%`, font: { family: "'Inter', sans-serif" } }
+          }
+        }
+      }
+    });
+  }
+
+  /* === Material Flow Analysis — stacked horizontal bars by ward (monthly tonnes) === */
+  const mfaCtx=document.getElementById('mfaWardChart');
+  if(mfaCtx){
+    const labels=wards.map(wrapLabel);
+    const rec = wards.map(w=>wardFlows[w].recycling ?? 0);
+    const cop = wards.map(w=>wardFlows[w].coProc ?? 0);
+    const road= wards.map(w=>wardFlows[w].plasticRoads ?? 0);
+    const res = wards.map(w=>wardFlows[w].residue ?? 0);
+
+    new Chart(mfaCtx,{ type:'bar',
+      data:{ labels,
+        datasets:[
+          { label:'Recycling (t/month)',                 data:rec,  backgroundColor:palette.primary,   borderColor:'#ffffff', borderWidth:1, stack:'total' },
+          { label:'Co-processing (t/month)',             data:cop,  backgroundColor:palette.secondary, borderColor:'#ffffff', borderWidth:1, stack:'total' },
+          { label:'Plastic-modified roads (t/month)',    data:road, backgroundColor:palette.a1,        borderColor:'#ffffff', borderWidth:1, stack:'total' },
+          { label:'Residue (t/month)',                   data:res,  backgroundColor:'#6c757d',         borderColor:'#ffffff', borderWidth:1, stack:'total' }
+        ] },
+      options:{ ...optsBase, indexAxis:'y',
+        plugins:{ legend:{ position:'bottom' }, tooltip:{ callbacks:{ title:tooltipTitle } } },
+        scales:{ x:{ ...optsBase.scales.x, title:{ display:true, text:'Tonnes per month' } }, y:optsBase.scales.y }
+      }
+    });
+  }
+
+  /* === Quality — TMC facilities only === */
+  const qualityCtx=document.getElementById('qualityChart');
+  if(qualityCtx){
+    new Chart(qualityCtx,{ type:'bar',
+      data:{ labels:['MCF-Shanghumugham','MCF-Kalippankulam','MCF-Kudappanakunnu','MCF-Chellamangalam','RRF-Vizhinjam'],
+        datasets:[
+          { label:'Bale purity %',      data:[94,93,92,91,95], backgroundColor:palette.primary },
+          { label:'Contamination %',    data:[ 6, 7, 8, 9, 5], backgroundColor:palette.a6 }
+        ] },
+      options:{ ...optsBase,
+        scales:{ ...optsBase.scales, y:{ ...optsBase.scales.y, title:{display:true, text:'Percentage (%)'}, suggestedMax:100 } },
+        plugins:{ tooltip:{ callbacks:{ title:tooltipTitle, label:(ctx)=> `${ctx.dataset.label}: ${ctx.parsed.y}%` } } }
+      }
+    });
+  }
+
+  /* === Social incidents — illustrative quarterly rate per 100 workers === */
+  const incidentsCtx=document.getElementById('incidentsChart');
+  if(incidentsCtx){
+    new Chart(incidentsCtx,{ type:'line',
+      data:{ labels:['Q1','Q2','Q3','Q4'],
+        datasets:[{ label:'Incidents per 100 workers (quarterly, illustrative)',
+          data:[1.8,1.2,1.4,1.1], borderWidth:2, fill:false, tension:0.25,
+          borderColor: '#005f73', pointRadius:3, pointBackgroundColor:'#005f73' }] },
+      options:{ ...optsBase,
+        scales:{ x:optsBase.scales.x, y:{ ...optsBase.scales.y, title:{ display:true, text:'Incidents per 100 workers' }, suggestedMax:3 } } }
+    });
+  }
+
+  /* Methods modal wiring */
+  const methodsBtn=document.getElementById('openMethods');
+  const methodsDlg=document.getElementById('methodsDialog');
+  const closeMethods=document.getElementById('closeMethods');
+  const closeMethodsBottom=document.getElementById('closeMethodsBottom');
+  if(methodsBtn && methodsDlg){ methodsBtn.addEventListener('click',()=>methodsDlg.showModal()); }
+  if(closeMethods){ closeMethods.addEventListener('click',()=>methodsDlg.close()); }
+  if(closeMethodsBottom){ closeMethodsBottom.addEventListener('click',()=>methodsDlg.close()); }
+});
+</script>
+</body>
+</html>
